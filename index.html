@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>repository</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>GitHub repository</h1>
+        <input type="text" id="username" class="form-control" placeholder="Enter GitHub username">
+        <button id="searchButton" class="btn btn-primary mt-2">Search</button>
+        <table class="table table-striped mt-4">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Followers</th>
+            </tr>
+            </thead>
+
+            <tbody id="repoTable">
+
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+
+        $("#searchButton").click(function () {
+
+            let username = $("#username").val();
+            $("#repoTable").empty();
+
+            $.get("https://api.github.com/users/" + username + "/repos", function (repos) {
+
+                repos.forEach(function(repo) {
+
+                    let row =
+                        "<tr>" +
+                        "<td>" + repo.name + "</td>" +
+                        "<td>" + repo.description + "</td>" +
+                        "<td>" + repo.watchers_count + "</td>" +
+                        "</tr>";
+
+                    $("#repoTable").append(row);
+
+
+                });
+
+            }).fail(function () {
+
+                alert("GitHub user not found");
+
+            });
+        });
+
+    </script>
+</body>
+
+</html>
