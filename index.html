@@ -10,7 +10,8 @@
 <body>
     <div class="container mt-5">
         <h1>GitHub repository</h1>
-        <input type="text" id="username" class="form-control" placeholder="Enter GitHub username">
+        <p>Enter a GitHub username:</p>
+        <input type="text" id="username" class="form-control" >
         <button id="searchButton" class="btn btn-primary mt-2">Search</button>
         <table class="table table-striped mt-4">
             <thead>
@@ -22,28 +23,27 @@
             </thead>
 
             <tbody id="repoTable">
-
             </tbody>
         </table>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
 
         $("#searchButton").click(function () {
 
-            let username = $("#username").val();
+            var username = $("#username").val();
             $("#repoTable").empty();
 
-            $.get("https://api.github.com/users/" + username + "/repos", function (repos) {
+            $.get("https://api.github.com/users/" + username + "/repos", function (data) {
 
-                repos.forEach(function(repo) {
+                $.each(data,function(i,repo) {
 
-                    let row =
-                        "<tr>" +
-                        "<td>" + repo.name + "</td>" +
-                        "<td>" + repo.description + "</td>" +
-                        "<td>" + repo.watchers_count + "</td>" +
-                        "</tr>";
+                    var row = "<tr>";
+                    row += "<td>" + repo.name + "</td>";
+                    row += "<td>" + repo.description + "</td>";
+                    row += "<td>" + repo.watchers_count + "</td>";
+                    row += "</tr>";
 
                     $("#repoTable").append(row);
 
